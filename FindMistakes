@@ -1,0 +1,42 @@
+// Given an array of numbers and a range, count the mistakes and print
+// the result.
+//
+// Mistakes are:
+//   1. Numbers outside of the range
+//   2. Duplicate entries
+//
+// For instance: Given a low value of 3 and a high value of 8, the
+// following array: [ 1, 5, 6, 6 ] would return the result of 2 (the
+// number 1 is out of range, and the number 6 is duplicated).
+
+// assumption:
+// out of range duplicates are allowed
+// if out of range duplicates are not allowed then use outOfRangeElements as a set and not a [Int]
+func findMistakes(_ arr: [Int], low: Int, high: Int) -> Int {
+
+    guard !arr.isEmpty else { return -1 }
+
+    let numberRange = low..<high
+    var uniqueElementsInRange = Set<Int>()
+
+    var outOfRangeElements = [Int]()
+    var duplicatesInRange = [Int]()
+
+    for num in arr {
+        if !numberRange.contains(num) {
+            outOfRangeElements.append(num)
+        } else {
+            // number in range, check if it's a dup
+            if uniqueElementsInRange.contains(num) {
+                duplicatesInRange.append(num)
+            } else {
+                // num is in range and is not a dup. add it the unique elements
+                uniqueElementsInRange.insert(num)
+            }
+        }
+    }
+
+    print("outOfRangeElements: \(outOfRangeElements)")
+    print("duplicatesInRange: \(duplicatesInRange)")
+    return outOfRangeElements.count + duplicatesInRange.count
+}
